@@ -1,6 +1,6 @@
 .product {
-  max-width: 240px;
-  width: max-content;
+  /* max-width: 240px; */
+  width: 320px;
   border: 1px solid green;
   border-radius: 8px;
   display: flex;
@@ -16,21 +16,21 @@
   width: 100%;
   max-width: 1400px;
   height: 100%;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 20px auto;
 }
 
 .productContainer {
   width: 100%;
   display: flex;
   gap: 15px;
+  justify-content:center;
   flex-wrap: wrap;
   height: 100%;
 }
 
 .productBody {
   width: 100%;
-  max-width: 240px;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
   gap: 12px;

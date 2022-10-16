@@ -1,53 +1,56 @@
 import { loadState, saveState } from "./../../utils/storage";
 import {
-	ADD_COUNT,
 	ADD_PRODUCT,
 	REMOVE_PRODUCT,
-	SUBTRACT_COUNT
+	SUBSTRACT_PRODUCT,
 } from "../types/count.types";
+import { getStorage, setStorage } from "../../utils/local-storage.ts";
 
 const initialState = {
 	totalCount: 0,
-	totalPrice: 0,
-	products: loadState("products") ?? []
+	products: Array.isArray(getStorage('products', '[]')) ? getStorage('products', '[]') : []
 };
 
 const countReducer = (state = initialState, action) => {
+	console.log({ action, state })
 	switch (action.type) {
-		case ADD_PRODUCT: {
-			console.log({ action });
-
-			saveState(
-				"products",
-				state.products.push({
-					id: action.payload.id,
-					count: action.payload.count,
-					price: action.payload.price
-				})
-			);
-			return {
-				totalCount: state.totalCount + action.payload.count,
-				totalPrice: state.totalPrice + action.payload.price,
-				product:
-					state.products &&
-					state?.products?.push({
-						id: action.payload.id,
-						count: action.payload.count,
-						price: action.payload.price
-					})
-			};
-		}
+		case ADD_PRODUCT:
+			const ind = state.products?.findIndex(i => i.id === action.payload.id)
+			if (ind !== -1) {
+				state.products[ind].count = action.payload.count
+				saveState("products", state.products);
+				return {
+					...state,
+				}
+			} else {
+				state.products.push(action.payload)
+				saveState("products", state.products);
+				return {
+					...state,
+					products: state.products
+				};
+			}
 		case REMOVE_PRODUCT:
+			state.products?.splice(state.products.findIndex(itm => itm.id === action.payload.id), 1)
 			saveState(
 				"products",
-				state?.products?.filter((item) => item.id !== action.payload.id)
+				state.products
 			);
 			return {
-				totalCount: state.totalCount - action.payload.count,
-				totalPrice: state.totalPrice - action.payload.price,
-				product: state?.products?.filter(
-					(item) => item.id !== action.payload.id
-				)
+				...state,
+				products: state?.products
+			};
+		case SUBSTRACT_PRODUCT:
+			const indx = state.products?.findIndex(i => i.id === action.payload.id)
+			if (state.products[indx].count === 1) {
+				state.products.splice(indx, 1)
+			} else {
+				state.products[indx].count = action.payload.count
+			}
+			saveState("products", state.products);
+			return {
+				...state,
+				products: state.products
 			};
 		default:
 			return { ...state };
