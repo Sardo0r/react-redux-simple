@@ -4,7 +4,7 @@ import {
 	REMOVE_PRODUCT,
 	SUBSTRACT_PRODUCT,
 } from "../types/count.types";
-import { getStorage, setStorage } from "../../utils/local-storage.ts";
+import { getStorage, setStorage } from "../../utils/local-storage.js";
 
 const initialState = {
 	totalCount: 0,
