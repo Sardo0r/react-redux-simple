@@ -52,7 +52,7 @@ const Header = () => {
 		<div style={sticky ? { ...inlineStyle.sticky } : { ...inlineStyle.notSticky }}>
 			<Container p={20} size="xl">
 				<Group position="apart">
-					<NavLink to={'/'}>
+					<NavLink to="/">
 						<Text color={'teal'} sx={{ fontFamily: 'fantasy' }} weight={500} size={28}>
 							Online Shop
 						</Text>
